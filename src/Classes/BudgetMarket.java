@@ -226,7 +226,6 @@ public class BudgetMarket implements iBudgetMarket {
                 }
             }
         }
-
         return storesToVisit;
     }
 
