@@ -1,28 +1,28 @@
 package Algorithms;
 
-public class Dictionary {
+public class Dictionary <K, V> {
     private class DictionaryPair implements Comparable {
-        private Object key;
-        private Object value;
+        private K key;
+        private V value;
 
-        public DictionaryPair(Object key, Object value) {
+        public DictionaryPair(K key, V value) {
             this.key = key;
             this.value = value;
         }
 
-        public Object getKey() {
+        public K getKey() {
             return key;
         }
 
-        public void setKey(Object key) {
+        public void setKey(K key) {
             this.key = key;
         }
 
-        public Object getValue() {
+        public V getValue() {
             return value;
         }
 
-        public void setValue(Object value) {
+        public void setValue(V value) {
             this.value = value;
         }
 
@@ -38,7 +38,7 @@ public class Dictionary {
         data = new Vector<>();
     }
 
-    public void add(Object key, Object value) {
+    public void add(K key, V value) {
         int position = findPosition(key);
         if (position != -1) {
             DictionaryPair pair = (DictionaryPair) data.get(position);
@@ -51,7 +51,7 @@ public class Dictionary {
     }
 
 
-    public int findPosition(Object key) {
+    public int findPosition(K key) {
         for (int i = 0; i < data.size(); i++) {
             DictionaryPair pair = (DictionaryPair) data.get(i);
             if (pair.getKey().equals(key)) {
@@ -61,7 +61,7 @@ public class Dictionary {
         return -1;
     }
 
-    public Object find(Object key) {
+    public V find(K key) {
         for (int i = 0; i < data.size(); i++) {
             DictionaryPair pair = (DictionaryPair) data.get(i);
             if (pair.getKey().equals(key)) {
@@ -71,7 +71,7 @@ public class Dictionary {
         return null; // Key not found
     }
 
-    public void removeKey(Object key) {
+    public void removeKey(K key) {
         int index = findPosition(key);
         if (index != -1) {
             data.removeAt(index);
@@ -80,6 +80,19 @@ public class Dictionary {
 
     public int size() {
         return data.size();
+    }
+
+    @Override
+    public String toString() {
+        String s ="";
+        for (int i = 0; i < data.size(); i++) {
+            DictionaryPair pair = (DictionaryPair) data.get(i);
+            s += "key:" + pair.key;
+            s += " ";
+            s += "value:" + pair.value;
+            s += "\n";
+        }
+        return s;
     }
 
 }
