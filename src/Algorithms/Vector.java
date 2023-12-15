@@ -6,6 +6,8 @@ public class Vector<E> {
     private int count;
     private static final int DEFAULT_CAPACITY = 10;
 
+    private int capacity;
+
     /*
      * Default Constructor
      * Default size 10
@@ -13,15 +15,19 @@ public class Vector<E> {
     public Vector() {
         data = new Object[DEFAULT_CAPACITY];
         count = 0;
+        this.capacity = DEFAULT_CAPACITY;
     }
+
 
     /*
      * Constructor with initial capacity
      * @param capacity - Initially given capacity
      */
-    public Vector(int capacity) {
+    public Vector(int capacity)
+    {
         data = new Object[capacity];
         count = 0;
+        this.capacity = capacity;
     }
 
     /*
@@ -33,12 +39,17 @@ public class Vector<E> {
         return count;
     }
 
+
     /*
      * Check the vector is empty or not
      * returns true or false
      */
     public boolean isEmpty() {
         return size() == 0;
+    }
+
+    public int getCapacity(){
+        return capacity;
     }
 
     /*

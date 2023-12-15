@@ -7,6 +7,7 @@ public class CircularVector<E> {
     private int count;
     private int capacity;
 
+
     public CircularVector(int capacity) {
         count = 0;
         first = 0;
@@ -14,30 +15,43 @@ public class CircularVector<E> {
         this.capacity = capacity;
     }
 
+    // This empty constructor use default vector capacity which is 10.
+    public CircularVector(){
+        count = 0;
+        first = 0;
+        data = new Vector<E>();
+        this.capacity = data.getCapacity();
+    }
+
     public int size() {
         return count;
     }
 
-    public void addFirst(E element) {
-        if (count == capacity) {
-            data.extendCapacity();
-        }
+    public boolean isEmpty()
+    {
+        return size() == 0;
+    }
 
-        // Calculate the index where the element should be added
-        first = (first - 1 + capacity) % capacity;
-        data.set(first, element);
-        count++;
+    public void addFirst(E element) {
+        if (capacity <= count) {
+            throw new ArrayIndexOutOfBoundsException();
+        }else{
+            // Calculate the index where the element should be added
+            first = (first - 1 + capacity) % capacity;
+            data.set(first, element);
+            count++;
+        }
     }
 
     public void addLast(E element) {
-        if (count == capacity) {
-            data.extendCapacity();
+        if (capacity <= count) {
+            throw new ArrayIndexOutOfBoundsException();
+        }else{
+            // Calculate the index where the element should be added
+            int index = (first + count) % capacity;
+            data.set(index, element);
+            count++;
         }
-
-        // Calculate the index where the element should be added
-        int index = (first + count) % capacity;
-        data.set(index, element);
-        count++;
     }
 
     public E getFirst() {
@@ -70,13 +84,13 @@ public class CircularVector<E> {
 
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder("[");
+        String str = "[";
         for (int i = 0; i < count; i++) {
             int index = (first + i) % capacity;
-            s.append(data.get(index)).append(" ");
+            str += data.get(index).toString() + " ";
         }
-        s.append("] ");
-        return s.toString();
+        str += "]";
+        return str;
     }
 }
 
