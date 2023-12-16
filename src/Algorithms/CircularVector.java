@@ -1,5 +1,10 @@
 package Algorithms;
 
+/**
+ * CircularVector class represents a circular vector using a vector
+ *
+ * @param <E> The type of elements in the circular vector.
+ */
 public class CircularVector<E> {
 
     private Vector<E> data;
@@ -23,15 +28,31 @@ public class CircularVector<E> {
         this.capacity = data.getCapacity();
     }
 
+    /**
+     * Returns the number of elements in the circular vector.
+     *
+     * @return The size of the circular vector.
+     */
     public int size() {
         return count;
     }
 
+    /**
+     * Checks if the circular vector is empty.
+     *
+     * @return True if the circular vector is empty, false otherwise.
+     */
     public boolean isEmpty()
     {
         return size() == 0;
     }
 
+    /**
+     * Adds an element to the front of the circular vector.
+     *
+     * @param element The element to be added.
+     * @throws ArrayIndexOutOfBoundsException if the circular vector is full.
+     */
     public void addFirst(E element) {
         if (capacity <= count) {
             throw new ArrayIndexOutOfBoundsException();
@@ -43,6 +64,12 @@ public class CircularVector<E> {
         }
     }
 
+    /**
+     * Adds an element to the end of the circular vector.
+     *
+     * @param element The element to be added.
+     * @throws ArrayIndexOutOfBoundsException if the circular vector is full.
+     */
     public void addLast(E element) {
         if (capacity <= count) {
             throw new ArrayIndexOutOfBoundsException();
@@ -54,6 +81,11 @@ public class CircularVector<E> {
         }
     }
 
+    /**
+     * Returns the element from the front of the circular vector.
+     *
+     * @return The element from the front of the circular vector.
+     */
     public E getFirst() {
         if (count > 0) {
             return data.get(first);
@@ -61,6 +93,11 @@ public class CircularVector<E> {
         return null; // or throw an exception, depending on your requirements
     }
 
+    /**
+     * Returns the element from the end of the circular vector.
+     *
+     * @return The element from the end of the circular vector.
+     */
     public E getLast() {
         if (count > 0) {
             int lastIndex = (first + count - 1) % capacity;
@@ -69,6 +106,9 @@ public class CircularVector<E> {
         return null; // or throw an exception, depending on your requirements
     }
 
+    /**
+     * Removes the element from the front of the circular vector.
+     */
     public void removeFirst() {
         if (count > 0) {
             first = (first + 1) % capacity;
@@ -76,6 +116,9 @@ public class CircularVector<E> {
         }
     }
 
+    /**
+     * Removes the element from the end of the circular vector.
+     */
     public void removeLast() {
         if (count > 0) {
             count--;

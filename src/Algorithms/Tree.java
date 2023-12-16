@@ -1,8 +1,9 @@
 package Algorithms;
+
 public class Tree {
     // the class for implementing a node in the tree.
     // contains a value, a pointer to the left child and a pointer to the right child
-	public class TreeNode implements Comparable {
+    public class TreeNode implements Comparable {
         private Comparable value;
         private TreeNode leftNode;
         private TreeNode rightNode;
@@ -32,7 +33,7 @@ public class Tree {
 
         @Override
         public int compareTo(Object arg0) {
-			return value.compareTo(((TreeNode)arg0).value );
+            return value.compareTo(((TreeNode) arg0).value);
         }
     }
 
@@ -47,21 +48,32 @@ public class Tree {
     }
 
 
+    /**
+     * Traverses the tree in a specified order and performs an action on each node.
+     *
+     * @param action The action to be performed on each node.
+     */
     public void traverse(TreeAction action) {
-		Queue t = new Queue<>();
-		t.push(root);
-		while (!t.empty()){
-			TreeNode n = (TreeNode) t.pop();
-			action.run(n);
-			if(n.getLeftTree() != null){
-				t.push(n.getLeftTree());
-			}
-			if(n.getRightTree() != null){
-				t.push(n.getRightTree());
-			}
- 		}
+        Queue t = new Queue<>();
+        t.push(root);
+        while (!t.empty()) {
+            TreeNode n = (TreeNode) t.pop();
+            action.run(n);
+            if (n.getLeftTree() != null) {
+                t.push(n.getLeftTree());
+            }
+            if (n.getRightTree() != null) {
+                t.push(n.getRightTree());
+            }
+        }
     }
 
+    /**
+     * Helper method for recursive traversal of the tree in-order.
+     *
+     * @param n      The current node.
+     * @param action The action to be performed on each node.
+     */
     private void traverseNode(TreeNode n, TreeAction action) {
         if (n != null) {
             if (n.getLeftTree() != null) traverseNode(n.getLeftTree(), action);
@@ -70,10 +82,20 @@ public class Tree {
         }
     }
 
+    /**
+     * Traverses the tree in-order and performs an action on each node.
+     *
+     * @param action The action to be performed on each node.
+     */
     public void traverseInOrder(TreeAction action) {
         traverseNode(root, action);
     }
 
+    /**
+     * Inserts an element into the binary tree.
+     *
+     * @param element The element to be inserted.
+     */
     public void insert(Comparable element) {
         insertAtNode(element, root, null);
     }
@@ -100,7 +122,7 @@ public class Tree {
             else root = newNode;
         } else if (element.compareTo(current.value) == 0) {
             // if the element is already in the tree, what to do?
-			throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException();
         }
         // if the element is smaller than current, go left
         else if (element.compareTo(current.value) < 0) {
@@ -110,92 +132,110 @@ public class Tree {
         else insertAtNode(element, current.getRightTree(), current);
     }
 
-	// this toString does Depth First Search with Stack
-	// If we use Queue instead of stack it does Breath First Search
+    /**
+     * Performs Depth First Search as we use Stack
+     * If we use Queue instead of stack it does Breath First Search
+     * Time complexity is O(n) as we traverse each element once.
+     *
+     * @return String representation of the tree.
+     */
 
-	public String depthSearch() {
-		String s = "";
-		Stack<TreeNode> t = new Stack<>();
-		t.push(root);
-		while(!t.empty()){
-			TreeNode n = t.pop();
-			s += n.value.toString();
-			if(n.getRightTree() != null){
-				t.push(n.getRightTree());
-			}
-			if(n.getLeftTree() != null){
-				t.push(n.getLeftTree());
-			}
-			s += "\n";
-		}
-		return s;
-	}
+    public String depthSearch() {
+        String s = "";
+        Stack<TreeNode> t = new Stack<>();
+        t.push(root);
+        while (!t.empty()) {
+            TreeNode n = t.pop();
+            s += n.value.toString();
+            if (n.getRightTree() != null) {
+                t.push(n.getRightTree());
+            }
+            if (n.getLeftTree() != null) {
+                t.push(n.getLeftTree());
+            }
+            s += "\n";
+        }
+        return s;
+    }
 
-	public String breadthSearch() {
-		String s = "";
-		Queue<TreeNode> t = new Queue<>();
-		t.push(root);
-		while(!t.empty()){
-			TreeNode n = t.pop();
-			s += n.value.toString();
-			if(n.getRightTree() != null){
-				t.push(n.getRightTree());
-			}
-			if(n.getLeftTree() != null){
-				t.push(n.getLeftTree());
-			}
-			s += "\n";
-		}
-		return s;
-	}
+    /**
+     * Performs a Breadth-First search
+     * Time complexity is O(n) as we traverse each element once.
+     * @return String representation of the tree.
+     */
+    public String breadthSearch() {
+        String s = "";
+        Queue<TreeNode> t = new Queue<>();
+        t.push(root);
+        while (!t.empty()) {
+            TreeNode n = t.pop();
+            s += n.value.toString();
+            if (n.getRightTree() != null) {
+                t.push(n.getRightTree());
+            }
+            if (n.getLeftTree() != null) {
+                t.push(n.getLeftTree());
+            }
+            s += "\n";
+        }
+        return s;
+    }
 
+    /**
+     * Calculates the depth of the tree.
+     *
+     * @return The depth of the tree.
+     */
+    public int depth() {
+        return depthAtNode(root);
+    }
 
-	@Override
-	public String toString(){
-		String s = "";
-		traverse(new TreeAction() {
-			@Override
-			public void run(TreeNode n) {
-				System.out.println(n.getValue());
-			}
-		});
-		return s;
-	}
+    // Helper method for recursive calculation of the depth of a node.
+    private int depthAtNode(TreeNode node) {
+        if (node == null)
+            return 0;
+        else {
+            // compute the depth of each subtree
+            int depthLeft = depthAtNode(node.leftNode) + 1;
+            int depthRight = depthAtNode(node.rightNode) + 1;
 
-	public int depthAtNode(TreeNode node)
-	{
-		if (node == null)
-			return 0;
-		else {
-			/* compute the depth of each subtree */
-			int depthLeft = depthAtNode(node.leftNode) + 1;
-			int depthRight = depthAtNode(node.rightNode) + 1;
+            // use the larger one
+            return depthLeft > depthRight ? depthLeft : depthRight;
+        }
+    }
 
-			/* use the larger one */
-			return depthLeft > depthRight ? depthLeft : depthRight;
-		}
-	}
+    /**
+     * Finds and returns the maximum value in the tree.
+     *
+     * @return The maximum value in the tree.
+     */
+    public Comparable findMax() {
+        return maxNode(root);
+    }
 
-	public int depth(){
-		return depthAtNode(root);
-	}
+    // Helper method for finding the maximum value in the tree.
+    private Comparable maxNode(TreeNode node) {
+        if (node == null) {
+            return null;
+        }
+        if (node.rightNode == null) {
+            return node.getValue();
+        } else {
+            return maxNode(node.rightNode);
+        }
+    }
 
-	private Comparable maxNode(TreeNode node){
-		if(node == null){
-			return null;
-		}
-		if(node.rightNode == null){
-			return node.getValue();
-		}else{
-			return maxNode(node.rightNode);
-		}
-	}
-	public Comparable findMax(){
-		return maxNode(root);
-	}
-
-
-
+    @Override
+    public String toString() {
+        String s = "";
+        traverse(new TreeAction() {
+            @Override
+            public void run(TreeNode n) {
+                System.out.println(n.getValue());
+            }
+        });
+        return s;
+    }
 
 
 }

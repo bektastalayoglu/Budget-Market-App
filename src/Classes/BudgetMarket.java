@@ -242,6 +242,18 @@ public class BudgetMarket implements iBudgetMarket {
 
     @Override
     public boolean removeProductFromStore(String category, int storeID) {
+        // Iterate through products to find a match by category and store ID
+        for (int i = 0; i < products.size(); i++) {
+            Product currentProduct = products.get(i);
+            if (currentProduct.getCategory().equals(category) && currentProduct.getStoreID() == storeID) {
+                // Remove the product from the products dictionary
+                products.removeAt(i);
+
+                System.out.println("Product " + category + " removed from store " + storeID);
+                return true;
+            }
+        }
+        System.out.println("Product " + category + " not found in store " + storeID);
         return false;
     }
 

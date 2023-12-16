@@ -79,6 +79,8 @@ public class Main {
         System.out.println(marketApp.addProductToShoppingList(client1, "Ham"));
         System.out.println(marketApp.buyProducts(client1));
 
+        System.out.println(marketApp.removeProductFromStore("Banana",2));
+
 
     }
 }

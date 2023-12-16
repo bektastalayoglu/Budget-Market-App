@@ -1,5 +1,10 @@
 package Algorithms;
 
+/**
+ * LinkedList class represents a generic singly linked list.
+ *
+ * @param <E> The type of elements in the linked list.
+ */
 public class LinkedList<E extends Comparable<E>> {
     private class ListElement {
         private E value;
@@ -40,15 +45,31 @@ public class LinkedList<E extends Comparable<E>> {
         count = 0;
     }
 
+    /**
+     * Adds an element to the front of the linked list.
+     *
+     * @param o The element to be added.
+     */
     public void addFirst(E o) {
         head = new ListElement(o, head);
         count++;
     }
 
+    /**
+     * Returns the element from the front of the linked list.
+     *
+     * @return The element from the front of the linked list.
+     */
     public E getFirst() {
         return head.getValue();
     }
 
+    /**
+     * Returns the element at the specified index in the linked list.
+     *
+     * @param n The index of the element to retrieve.
+     * @return The element at the specified index.
+     */
     public E get(int n) {
         ListElement d = head;
         for (int i = 0; i < n; i++) {
@@ -69,10 +90,21 @@ public class LinkedList<E extends Comparable<E>> {
         return s;
     }
 
+    /**
+     * Returns the number of elements in the linked list.
+     *
+     * @return The size of the linked list.
+     */
     public int size() {
         return count;
     }
 
+    /**
+     * Sets the element at the specified index in the linked list to the specified value.
+     *
+     * @param n The index of the element to set.
+     * @param o The value to set the element to.
+     */
     public void set(int n, E o) {
         ListElement d = head;
         for (int i = 0; i < n; i++) {
@@ -81,6 +113,11 @@ public class LinkedList<E extends Comparable<E>> {
         d.setValue(o);
     }
 
+    /**
+     * Returns the last element in the linked list.
+     *
+     * @return The last element in the linked list.
+     */
     public E getLast() {
         if (head == null) {
             return null;
@@ -93,7 +130,11 @@ public class LinkedList<E extends Comparable<E>> {
         return d.value;
     }
 
-
+    /**
+     * Adds an element to the end of the linked list.
+     *
+     * @param o The element to be added.
+     */
     public void addLast(E o) {
         ListElement newElement = new ListElement(o);
 
@@ -112,6 +153,12 @@ public class LinkedList<E extends Comparable<E>> {
         }
     }
 
+    /**
+     * Searches for the specified element in the linked list.
+     *
+     * @param o The element to search for.
+     * @return True if the element is found, false otherwise.
+     */
     public boolean search(Comparable o) {
         ListElement current = head;
         while (current.next != null) {
@@ -156,6 +203,11 @@ public class LinkedList<E extends Comparable<E>> {
         }
     }
 
+    /**
+     * Appends the elements of another linked list to the end of this linked list.
+     *
+     * @param list2 The linked list to append.
+     */
     public void append(LinkedList list2) {
         if (list2.head == null) {
             // If list2 is empty, nothing to append
@@ -169,6 +221,9 @@ public class LinkedList<E extends Comparable<E>> {
         }
     }
 
+    /**
+     * Removes the last element from the linked list.
+     */
     public void removeLast() {
         if (head == null) {
             System.out.println("List is empty...");
@@ -192,6 +247,9 @@ public class LinkedList<E extends Comparable<E>> {
         }
     }
 
+    /**
+     * Removes the first element from the linked list.
+     */
     public void removeFirst() {
         if (head == null) {
             throw new NullPointerException();
@@ -202,10 +260,20 @@ public class LinkedList<E extends Comparable<E>> {
         head = second;
     }
 
+    /**
+     * Checks if the linked list is empty.
+     *
+     * @return True if the linked list is empty, false otherwise.
+     */
     public boolean isEmpty() {
         return size() == 0;
     }
 
+    /**
+     * Adds an element to the linked list in sorted order.
+     *
+     * @param o The element to be added.
+     */
     public void addSorted(E o) {
         // an empty list, add element in front
         if (head == null)

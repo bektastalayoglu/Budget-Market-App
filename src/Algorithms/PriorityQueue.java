@@ -1,5 +1,10 @@
 package Algorithms;
 
+/**
+ * PriorityQueue class represents a priority queue.
+ *
+ * @param <E> The type of elements in the priority queue.
+ */
 public class PriorityQueue<E> {
 
     private class PriorityPair implements Comparable{
@@ -32,17 +37,33 @@ public class PriorityQueue<E> {
         data = new LinkedList();
     }
 
+    /**
+     * Adds an element with the specified priority to the priority queue.
+     *
+     * @param o        The element to be added.
+     * @param priority The priority associated with the element.
+     */
     public void push(E o, int priority){
         PriorityPair x = new PriorityPair(o, priority);
         data.addSorted(x);
     }
 
+    /**
+     * Removes and returns the element with the highest priority from the priority queue.
+     *
+     * @return The element with the highest priority.
+     */
     public Object pop(){
         PriorityPair x = (PriorityPair) data.getFirst();
         data.removeFirst();
         return x;
     }
 
+    /**
+     * Returns the element with the highest priority without removing it from the priority queue.
+     *
+     * @return The element with the highest priority.
+     */
     public Object top(){
         return data.getFirst();
     }

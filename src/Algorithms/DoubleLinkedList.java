@@ -1,5 +1,10 @@
 package Algorithms;
 
+/**
+ * DoubleLinkedList class represents a doubly linked list with generic elements.
+ *
+ * @param <E> The type of elements in the list.
+ */
 public class DoubleLinkedList<E>  {
 
     private class DoubleLinkedListElement{
@@ -55,21 +60,48 @@ public class DoubleLinkedList<E>  {
         this.count = 0;
     }
 
+    /**
+     * Gets the value of the first element in the list.
+     *
+     * @return The value of the first element.
+     */
     public E getFirst(){
         return head.value();
     }
 
+    /**
+     * Gets the value of the last element in the list.
+     *
+     * @return The value of the last element.
+     */
     public E getLast(){
         return tail.value();
     }
+
+
+    /**
+     * Checks if the double linked list is empty.
+     *
+     * @return True if the list is empty, false otherwise.
+     */
     public boolean isEmpty(){
         return count == 0;  // head == null
     }
 
+    /**
+     * Gets the size of the double linked list.
+     *
+     * @return The size of the list.
+     */
     public int size(){
         return count;
     }
 
+    /**
+     * Adds an element with the given data to the beginning of the list.
+     *
+     * @param data The data of the element to be added.
+     */
     public void addFirst(E data){
         head = new DoubleLinkedListElement(data, head, null);
         if(tail == null) {
@@ -78,6 +110,11 @@ public class DoubleLinkedList<E>  {
         count++;
     }
 
+    /**
+     * Adds an element with the given data to the end of the list.
+     *
+     * @param data The data of the element to be added.
+     */
     public void addLast(E data){
         tail = new DoubleLinkedListElement(data, null, tail);
         if(head == null) {
@@ -86,6 +123,9 @@ public class DoubleLinkedList<E>  {
         count++;
     }
 
+    /**
+     * Removes the first element from the list.
+     */
     public void removeFirst(){
         if(isEmpty()){
             System.out.println("List is empty...");
@@ -102,6 +142,9 @@ public class DoubleLinkedList<E>  {
         count--;
     }
 
+    /**
+     * Removes the last element from the list.
+     */
     public void removeLast(){
         if(isEmpty()){
             System.out.println("List is empty...");
@@ -117,6 +160,9 @@ public class DoubleLinkedList<E>  {
         count--;
     }
 
+    /**
+     * Prints the elements of the list in reverse order.
+     */
     public void printReverse(){
         if(tail == null){
             return;
@@ -140,7 +186,12 @@ public class DoubleLinkedList<E>  {
         return s;
     }
 
-    // Return values from specific index
+    /**
+     * Returns the value at the specified index in the list.
+     *
+     * @param index The index of the element to retrieve.
+     * @return The value at the specified index.
+     */
     public E get(int index) {
         if (index < 0 || index >= size()) {
             System.out.println("Invalid Index");;
@@ -161,6 +212,12 @@ public class DoubleLinkedList<E>  {
         return temp.value();
     }
 
+    /**
+     * Searches for the first occurrence of the specified key in the list.
+     *
+     * @param k The key to search for.
+     * @return The element containing the key, or null if the key is not found.
+     */
     public Object search(Object k){
         DoubleLinkedListElement temp = head;
         while(temp != null && temp.value() != k){
