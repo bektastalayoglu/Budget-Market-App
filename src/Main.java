@@ -23,11 +23,11 @@ public class Main {
 
 
         // Add products, returns id of products
-        int product1 = marketApp.addProduct("Banana", 1.50f, store2);
-        int product2 = marketApp.addProduct("Apples", 0.70f, store2);
-        int product3 = marketApp.addProduct("Chicken", 4.50f, store2);
-        int product4 = marketApp.addProduct("Ham", 2.50f, store3);
-        int product5 = marketApp.addProduct("Ham", 2.50f, store2);
+        int product1 = marketApp.addProduct("Ham", 16.50f, store1);
+        int product4 = marketApp.addProduct("Fish", 4.7f, store1);
+        int product6 = marketApp.addProduct("Banana", 0.50f, store3);
+
+
 
 
         // I tested my code...
@@ -62,9 +62,8 @@ public class Main {
         System.out.println("----------------------------------");
 
         Product appProduct1 = marketApp.findProduct(product1);
-        Product appProduct2 = marketApp.findProduct(product2);
 
-        if (appProduct2 != null) {
+        if (appProduct1 != null) {
             System.out.println(appProduct1);
         } else {
             System.out.println("Sorry, product is not exist.");
@@ -74,17 +73,12 @@ public class Main {
         System.out.println("----------------------------------");
         marketApp.printAllProducts();
 
-        System.out.println(marketApp.addProductToShoppingList(client1, "Banana"));
-        System.out.println(marketApp.addProductToShoppingList(client1, "Apples"));
-        System.out.println(marketApp.addProductToShoppingList(client1, "Chicken"));
+
         System.out.println(marketApp.addProductToShoppingList(client1, "Ham"));
-        System.out.println(marketApp.addProductToShoppingList(client1, "Beef"));
+        System.out.println(marketApp.addProductToShoppingList(client1, "Banana"));
+        System.out.println(marketApp.addProductToShoppingList(client1, "Fish"));
         System.out.println(marketApp.buyProducts(client1));
 
-        System.out.println(marketApp.removeProductFromStore("Banana",2));
-        System.out.println(marketApp.removeProductFromStore("Ham",2));
-        System.out.println(marketApp.removeProductFromStore("Ham",3));
-        marketApp.printAllProducts();
 
     }
 }

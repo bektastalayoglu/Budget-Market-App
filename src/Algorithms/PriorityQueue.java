@@ -53,10 +53,10 @@ public class PriorityQueue<E, P> {
      *
      * @return The element with the highest priority.
      */
-    public Object pop(){
+    public E pop(){
         PriorityPair x = (PriorityPair) data.getFirst();
         data.removeFirst();
-        return x;
+        return x.element;
     }
 
     /**
@@ -64,8 +64,8 @@ public class PriorityQueue<E, P> {
      *
      * @return The element with the highest priority.
      */
-    public Object top(){
-        return data.getFirst();
+    public E top(){
+        return ((PriorityPair)data.getFirst()).element;
     }
 
     public int size() {
@@ -81,4 +81,9 @@ public class PriorityQueue<E, P> {
         PriorityPair pair = (PriorityPair) data.get(index);
         return pair.element;
     }
+
+    public boolean isEmpty() {
+        return data.isEmpty();
+    }
+
 }

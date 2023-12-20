@@ -43,7 +43,7 @@ public class Product {
      * Get the price of the product.
      * @return The product price
      */
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 

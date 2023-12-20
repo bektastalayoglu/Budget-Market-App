@@ -278,13 +278,13 @@ public class LinkedList<E extends Comparable<E>> {
         // an empty list, add element in front
         if (head == null)
             head = new ListElement(o, null);
-        else if (head.value.compareTo(o) < 0) {
+        else if (head.value.compareTo(o) > 0) {
             // we have to add the element in front
             head = new ListElement(o, head);
         } else {
             // we have to find the first element which is bigger
             ListElement d = head;
-            while ((d.next != null) && (d.next.value.compareTo(o) > 0)) {
+            while ((d.next != null) && (d.next.value.compareTo(o) < 0)) {
                 d = d.next;
             }
             ListElement next = d.next;

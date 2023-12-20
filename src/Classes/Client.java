@@ -13,7 +13,7 @@ public class Client {
 
     private String address;
 
-    private Vector<Product> shoppingList;
+    private Vector<String> shoppingList;
 
     /*
      * Constructor for creating a Client object with a unique ID, name, email, address,
@@ -71,7 +71,7 @@ public class Client {
      * Get the shopping list of the client.
      * @return The client's shopping list
      */
-    public Vector<Product> getShoppingList() {
+    public Vector<String> getShoppingList() {
         return shoppingList;
     }
 
