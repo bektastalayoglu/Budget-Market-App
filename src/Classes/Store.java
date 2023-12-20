@@ -1,20 +1,23 @@
 package Classes;
 
+import Algorithms.PriorityQueue;
+import Algorithms.Vector;
+
 public class Store {
 
     private int storeID;
-    private static int storeIDCount = 1;
     private String name;
     private String address;
 
+
+
     /*
      * Constructor for creating a Store object with a unique ID, name, and address.
-     * storeIDCount is a mechanism to automatically generate unique IDs.
      * @param storeName - Name of the store
      * @param storeAddress - Address of the store
      */
-    public Store(String storeName, String storeAddress) {
-        this.storeID = storeIDCount++;
+    public Store(String storeName, String storeAddress, int storeID) {
+        this.storeID = storeID;
         this.name = storeName;
         this.address = storeAddress;
     }
@@ -43,13 +46,6 @@ public class Store {
         return name;
     }
 
-    /*
-     * Set a new name for the store.
-     * @param storeName - New store name
-     */
-    public void setStoreName(String name) {
-        this.name = name;
-    }
 
     /*
      * Get the address of the store.
@@ -60,15 +56,6 @@ public class Store {
     }
 
     /*
-     * Set a new address for the store.
-     * @param storeAddress - New store address
-     */
-    public void setStoreAddress(String address) {
-        this.address = address;
-    }
-
-
-    /*
      * Generate a string representation of the store.
      * @return A string containing store ID, name, and address
      */
@@ -76,4 +63,6 @@ public class Store {
     public String toString() {
         return storeID + ", " + name + ", " + address;
     }
+
+
 }

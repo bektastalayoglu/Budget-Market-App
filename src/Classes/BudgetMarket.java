@@ -7,6 +7,9 @@ public class BudgetMarket implements iBudgetMarket {
     private Vector<Store> stores;
     private Vector<Product> products;
     private Vector<Client> clients;
+    private int clientID = 1;
+    private int storeID = 1;
+    private int productID = 1;
 
     public BudgetMarket() {
         this.stores = new Vector<>();
@@ -26,7 +29,7 @@ public class BudgetMarket implements iBudgetMarket {
      */
     @Override
     public int addStore(String name, String street) {
-        Store newStore = new Store(name, street);
+        Store newStore = new Store(name, street, storeID++);
         stores.addLast(newStore);
         return newStore.getStoreID();
     }
@@ -47,7 +50,7 @@ public class BudgetMarket implements iBudgetMarket {
     public int addProduct(String category, Float price, int storeID) {
         // When we add product we should also check the store whether exist or not...
         // If the store exists we updated product store ID
-        Product newProduct = new Product(category, price);
+        Product newProduct = new Product(category, price, productID++);
         products.addLast(newProduct);
         if (findStore(storeID) != null) {
             System.out.println(newProduct.getCategory() + " added...");
@@ -73,7 +76,7 @@ public class BudgetMarket implements iBudgetMarket {
      */
     @Override
     public int addClient(String name, String email, String street) {
-        Client newClient = new Client(name, email, street);
+        Client newClient = new Client(name, email, street, clientID++);
         clients.addLast(newClient);
         return newClient.getClientId();
     }
@@ -183,15 +186,21 @@ public class BudgetMarket implements iBudgetMarket {
      */
     @Override
     public boolean addProductToShoppingList(int clientID, String productCategory) {
-        if (findClient(clientID) != null) {
-            for (int i = 0; i < products.size(); i++) {
-                if (products.get(i).getCategory().equals(productCategory)) {
-                    findClient(clientID).getShoppingList().addLast(productCategory);
-                    return true;
-                }
-            }
+        if (findClient(clientID) != null && findProductCategory(productCategory) != null) {
+            findClient(clientID).getShoppingList().addLast(findProductCategory(productCategory));
+            return true;
         }
         return false;
+    }
+
+    // Helper method to find product accordingly its category.
+    private Product findProductCategory(String productCategory) {
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getCategory().equals(productCategory)) {
+                return products.get(i);
+            }
+        }
+        return null;
     }
 
 
@@ -208,14 +217,14 @@ public class BudgetMarket implements iBudgetMarket {
         Vector<Store> storesToVisit = new Vector<>();
 
         if (findClient(clientID) != null) {
-            Vector<String> currentShopList = findClient(clientID).getShoppingList();
+            Vector<Product> currentShopList = findClient(clientID).getShoppingList();
 
             for (int i = 0; i < currentShopList.size(); i++) {
-                String currentProductCategory = currentShopList.get(i);
+                Product currentProduct = currentShopList.get(i);
 
                 // Iterate through products to find a match by category
                 for (int j = 0; j < products.size(); j++) {
-                    if (products.get(j).getCategory().equals(currentProductCategory)) {
+                    if (products.get(j).getCategory().equals(currentProduct.getCategory())) {
                         Store store = findStore(products.get(i).getStoreID());
 
                         if (store != null && !storesToVisit.contains(store)) {
@@ -243,16 +252,19 @@ public class BudgetMarket implements iBudgetMarket {
     @Override
     public boolean removeProductFromStore(String category, int storeID) {
         // Iterate through products to find a match by category and store ID
-        for (int i = 0; i < products.size(); i++) {
-            Product currentProduct = products.get(i);
-            if (currentProduct.getCategory().equals(category) && currentProduct.getStoreID() == storeID) {
-                // Remove the product from the products dictionary
-                products.removeAt(i);
+        if (findStore(storeID) != null) {
+            for (int i = 0; i < products.size(); i++) {
+                Product currentProduct = products.get(i);
+                if (currentProduct.getCategory().equals(category) && currentProduct.getStoreID() == storeID) {
+                    // Remove the product from the store
+                    products.removeAt(i);
 
-                System.out.println("Product " + category + " removed from store " + storeID);
-                return true;
+                    System.out.println("Product " + category + " removed from store " + storeID);
+                    return true;
+                }
             }
         }
+
         System.out.println("Product " + category + " not found in store " + storeID);
         return false;
     }

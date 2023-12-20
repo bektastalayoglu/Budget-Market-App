@@ -3,13 +3,11 @@ package Classes;
 public class Product {
 
     private int productID;
-    private static int productIDCount = 1;
     private String category;
     private float price;
 
     // storeID - To represent the store where the product is available
     private int storeID;
-
 
     /*
      * Constructor for creating a Product object with a unique ID, category, price.
@@ -17,8 +15,8 @@ public class Product {
      * @param category - Category of the product
      * @param price - Price of the product
      */
-    public Product(String category, Float price) {
-        this.productID = productIDCount++;
+    public Product(String category, Float price, int productID) {
+        this.productID = productID;
         this.category = category;
         this.price = price;
     }
@@ -31,13 +29,6 @@ public class Product {
         return productID;
     }
 
-    /*
-     * Set a new ID for the product.
-     * @param productID - New product ID
-     */
-    public void setProductID(int productID) {
-        this.productID = productID;
-    }
 
     /*
      * Get the category of the product.
@@ -47,13 +38,6 @@ public class Product {
         return category;
     }
 
-    /*
-     * Set a new category for the product.
-     * @param category - New product category
-     */
-    public void setCategory(String category) {
-        this.category = category;
-    }
 
     /*
      * Get the price of the product.
@@ -63,13 +47,6 @@ public class Product {
         return price;
     }
 
-    /*
-     * Set a new price for the product.
-     * @param price - New product price
-     */
-    public void setPrice(float price) {
-        this.price = price;
-    }
 
     /*
      * Get the ID of the store where the product is available.
@@ -95,5 +72,6 @@ public class Product {
     public String toString() {
         return productID + ", " + category + ", " + price;
     }
+
 
 }
