@@ -1,10 +1,12 @@
-package Algorithms;
-
 /**
- * LinkedList class represents a generic singly linked list.
+ * Author : Bektas Talayoglu
+ * Description : LinkedList class represents a generic singly linked list.
  *
- * @param <E> The type of elements in the linked list.
- */
+ * @param <E> The generic types of elements in the linked list.
+ **/
+
+package Algorithms.List;
+
 public class LinkedList<E extends Comparable<E>> {
     private class ListElement {
         private E value;
@@ -290,6 +292,38 @@ public class LinkedList<E extends Comparable<E>> {
             ListElement next = d.next;
             d.setNext(new ListElement(o, next));
         }
+        count++;
+    }
+
+    /**
+     * This method delete index nth element from the linked list.
+     * @param n : index
+     */
+    public void delete(int n) {
+
+        if (n == 0) {
+            removeFirst();
+        } else {
+            ListElement previous = head;
+            int i = 1;
+
+            while (i < n) {
+                previous = previous.next;
+                i++;
+            }
+
+            ListElement current = previous.next;
+            previous.setNext(current.next);
+
+            current.setNext(null);
+
+            count--;
+        }
+
+        if (n < 0 || n >= count) {
+            throw new IndexOutOfBoundsException();
+        }
+
     }
 
 

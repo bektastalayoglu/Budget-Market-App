@@ -1,12 +1,16 @@
-package Algorithms;
+package Algorithms.Dictionary;
+
+import Algorithms.Vector.Vector;
 
 /**
- * Dictionary class represents a simple dictionary with key-value pairs.
+ * Author : Bektas Talayoglu
+ * Description : Dictionary class represents a simple dictionary with key-value pairs.
  * It uses a Vector-based data structure to store the pairs.
  *
- * @param <K> The type of keys in the dictionary, must be comparable.
+ * @param <K> The type of keys in the dictionary.
  * @param <V> The type of values associated with the keys.
- */
+ **/
+
 public class Dictionary<K extends Comparable<K>, V> {
     private class DictionaryPair implements Comparable<DictionaryPair> {
         private K key;
@@ -54,15 +58,20 @@ public class Dictionary<K extends Comparable<K>, V> {
             this.value = value;
         }
 
-        //  Compares this pair with another pair based on their keys.
+        /**
+         * Compares this pair with another pair based on their keys.
+         */
+
         @Override
         public int compareTo(DictionaryPair o) {
             return this.key.compareTo(o.key);
         }
     }
 
-    // The underlying data structure to store key-value pairs
-    private Vector data;
+    /**
+     * The underlying data structure to store key-value pairs
+     */
+    private Vector<DictionaryPair> data;
 
     /**
      * Default constructor for the Dictionary class.
@@ -81,7 +90,7 @@ public class Dictionary<K extends Comparable<K>, V> {
     public void add(K key, V value) {
         int position = findPosition(key);
         if (position != -1) {
-            DictionaryPair pair = (DictionaryPair) data.get(position);
+            DictionaryPair pair = data.get(position);
             pair.setValue(value);
         } else {
             DictionaryPair newDict = new DictionaryPair(key, value);
@@ -91,14 +100,14 @@ public class Dictionary<K extends Comparable<K>, V> {
     }
 
     /**
-     * Finds the position (index) of a key in the dictionary.
+     * Finds the position of a key in the dictionary.
      *
-     * @param key The key to search for.
+     * @param key The key we are looking for
      * @return The index of the key if found, otherwise -1.
      */
     public int findPosition(K key) {
         for (int i = 0; i < data.size(); i++) {
-            DictionaryPair pair = (DictionaryPair) data.get(i);
+            DictionaryPair pair = data.get(i);
             if (pair.getKey().equals(key)) {
                 return i;
             }
@@ -109,12 +118,12 @@ public class Dictionary<K extends Comparable<K>, V> {
     /**
      * Finds and returns the value associated with a given key.
      *
-     * @param key The key to search for.
+     * @param key The key we are looking for
      * @return The value associated with the key, or null if the key is not found.
      */
     public V find(K key) {
         for (int i = 0; i < data.size(); i++) {
-            DictionaryPair pair = (DictionaryPair) data.get(i);
+            DictionaryPair pair = data.get(i);
             if (pair.getKey().equals(key)) {
                 return pair.getValue();
             }
@@ -131,11 +140,13 @@ public class Dictionary<K extends Comparable<K>, V> {
         int index = findPosition(key);
         if (index != -1) {
             data.removeAt(index);
+        } else {
+            System.out.println("Key can not find");
         }
     }
 
     /**
-     * Gets the number of key-value pairs in the dictionary.
+     * Gets the size of key-value pairs in the dictionary.
      *
      * @return The size of the dictionary.
      */
@@ -143,17 +154,47 @@ public class Dictionary<K extends Comparable<K>, V> {
         return data.size();
     }
 
+    /**
+     * Convert the dictionary to a string representation as key-value pair
+     *
+     * @return String representation of the dictionary
+     **/
     @Override
     public String toString() {
         String s = "";
         for (int i = 0; i < data.size(); i++) {
-            DictionaryPair pair = (DictionaryPair) data.get(i);
-            s += "key:" + pair.key;
-            s += " ";
-            s += "value:" + pair.value;
-            s += "\n";
+            DictionaryPair pair = data.get(i);
+            s += "key:" + pair.key + " " + "value:" + pair.value + "\n";
         }
         return s;
+    }
+
+    /**
+     * Stores and returns the values in the dictionary
+     *
+     * @return Vector : values in the dictionary
+     */
+    public Vector<V> values() {
+        Vector<V> values = new Vector<>();
+        for (int i = 0; i < data.size(); i++) {
+            DictionaryPair pair = data.get(i);
+            values.addLast(pair.getValue());
+        }
+        return values;
+    }
+
+    /**
+     * Stores and returns the keys in the dictionary
+     *
+     * @return Vector : keys in the dictionary
+     */
+    public Vector<K> keys() {
+        Vector<K> keys = new Vector<>();
+        for (int i = 0; i < data.size(); i++) {
+            DictionaryPair pair = data.get(i);
+            keys.addLast(pair.getKey());
+        }
+        return keys;
     }
 
 }

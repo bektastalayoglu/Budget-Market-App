@@ -1,10 +1,14 @@
-package Algorithms;
-
 /**
- * Stack class represents a stack using a Vector.
+ * Author : Bektas Talayoglu
+ * Description : Stack class represents a stack using a Vector.
  *
- * @param <E> The type of elements in the stack.
- */
+ * @param <E> The generic types of elements in the stack.
+ **/
+
+package Algorithms.Stack;
+
+import Algorithms.Vector.Vector;
+
 public class Stack<E> {
     private Vector<E> data;
 

@@ -11,22 +11,22 @@ public class Main {
         iBudgetMarket marketApp = new BudgetMarket();
 
         // Add clients, returns id of clients
-        int client1 = marketApp.addClient("Bektas Talayoglu", "bektas.talayoglu@vub.be", "Dautzenberg Street");
-        int client2 = marketApp.addClient("Yusuf Karadeniz", "yusuf@gmail.com", "Wall Street");
-        int client3 = marketApp.addClient("Burak Gul", "burak@gmail.com", "Lombard Street");
+        int client1 = marketApp.addClient("Bektas Talayoglu", "bektas.talayoglu@vub.be", "Street A");
+        int client2 = marketApp.addClient("Yusuf Karadeniz", "yusuf@gmail.com", "Street B");
+        int client3 = marketApp.addClient("Burak Gul", "burak@gmail.com", "Street C");
 
 
         // Add stores, returns id of store
-        int store1 = marketApp.addStore("Store A ", "Flagey Street");
-        int store2 = marketApp.addStore("Store B", "Main Street");
-        int store3 = marketApp.addStore("Store C", "White Street");
+        int store1 = marketApp.addStore("Store A ", "Street A");
+        int store2 = marketApp.addStore("Store B", "Street B");
+        int store3 = marketApp.addStore("Store C", "Street C");
 
 
         // Add products, returns id of products
-        int product1 = marketApp.addProduct("Ham", 16.50f, store1);
-        int product4 = marketApp.addProduct("Fish", 4.7f, store1);
-        int product6 = marketApp.addProduct("Banana", 0.50f, store3);
-
+        int product1 = marketApp.addProduct("Ham", 160.50f, store3);
+        int product4 = marketApp.addProduct("Ham", 24.70f, store2);
+        // int product6 = marketApp.addProduct("Ham", 10.50f, store1);
+        int product5 = marketApp.addProduct("Beef", 10.50f, store1);
 
 
 
@@ -75,10 +75,21 @@ public class Main {
 
 
         System.out.println(marketApp.addProductToShoppingList(client1, "Ham"));
-        System.out.println(marketApp.addProductToShoppingList(client1, "Banana"));
-        System.out.println(marketApp.addProductToShoppingList(client1, "Fish"));
+        //System.out.println(marketApp.addProductToShoppingList(client1, "Beef"));
+
+        marketApp.printAllClients();
         System.out.println(marketApp.buyProducts(client1));
 
+        System.out.println(marketApp.removeProductFromStore("Ham", store2));
+        marketApp.addStreet("Street A");
+        marketApp.addStreet("Street B");
+        marketApp.addStreet("Street C");
+
+        marketApp.connectStreets("Street A", "Street B", 5);
+        marketApp.connectStreets("Street B", "Street C", 8);
+
+
+        System.out.println(marketApp.getShoppingDirections(client1,1));
 
     }
 }

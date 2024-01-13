@@ -1,14 +1,15 @@
 package Classes;
 
-import Algorithms.PriorityQueue;
-import Algorithms.Vector;
+/**
+ * @author : Bektas Talayoglu
+ * Description : Store class is used manage stores in the app.
+ **/
 
 public class Store {
 
     private int storeID;
     private String name;
     private String address;
-
 
 
     /*

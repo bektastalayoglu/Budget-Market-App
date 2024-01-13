@@ -1,10 +1,12 @@
-package Algorithms;
+package Algorithms.List;
 
 /**
- * DoubleLinkedList class represents a doubly linked list with generic elements.
+ * Author : Bektas Talayoglu
+ * Description : DoubleLinkedList class represents a doubly linked list with generic elements.
  *
- * @param <E> The type of elements in the list.
- */
+ * @param <E> The generic types of elements in the double linked list.
+ **/
+
 public class DoubleLinkedList<E>  {
 
     private class DoubleLinkedListElement{

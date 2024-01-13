@@ -1,10 +1,14 @@
-package Algorithms;
+package Algorithms.Vector;
+
+import Algorithms.Vector.Vector;
 
 /**
- * CircularVector class represents a circular vector using a vector
+ * Author : Bektas Talayoglu
+ * Description : CircularVector class represents a circular vector using a vector
  *
- * @param <E> The type of elements in the circular vector.
- */
+ * @param <E> The generic types of elements in the circular vector.
+ **/
+
 public class CircularVector<E> {
 
     private Vector<E> data;
@@ -21,7 +25,7 @@ public class CircularVector<E> {
     }
 
     // This empty constructor use default vector capacity which is 10.
-    public CircularVector(){
+    public CircularVector() {
         count = 0;
         first = 0;
         data = new Vector<E>();
@@ -42,8 +46,7 @@ public class CircularVector<E> {
      *
      * @return True if the circular vector is empty, false otherwise.
      */
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return size() == 0;
     }
 
@@ -56,7 +59,7 @@ public class CircularVector<E> {
     public void addFirst(E element) {
         if (capacity <= count) {
             throw new ArrayIndexOutOfBoundsException();
-        }else{
+        } else {
             // Calculate the index where the element should be added
             first = (first - 1 + capacity) % capacity;
             data.set(first, element);
@@ -73,7 +76,7 @@ public class CircularVector<E> {
     public void addLast(E element) {
         if (capacity <= count) {
             throw new ArrayIndexOutOfBoundsException();
-        }else{
+        } else {
             // Calculate the index where the element should be added
             int index = (first + count) % capacity;
             data.set(index, element);

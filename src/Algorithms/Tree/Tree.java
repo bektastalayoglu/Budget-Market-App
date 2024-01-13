@@ -1,21 +1,27 @@
-package Algorithms;
+package Algorithms.Tree;
 
-public class Tree {
+import Algorithms.Queue.Queue;
+import Algorithms.Stack.Stack;
+import Algorithms.Vector.Vector;
+
+public class Tree<E extends Comparable<E>> {
     // the class for implementing a node in the tree.
     // contains a value, a pointer to the left child and a pointer to the right child
     public class TreeNode implements Comparable {
-        private Comparable value;
+        private E value;
         private TreeNode leftNode;
         private TreeNode rightNode;
+        private TreeNode parentNode;
 
-        public TreeNode(Comparable v) {
-            this(v, null, null);
+        public TreeNode(E v) {
+            this(v, null, null, null);
         }
 
-        public TreeNode(Comparable v, TreeNode left, TreeNode right) {
+        public TreeNode(E v, TreeNode left, TreeNode right, TreeNode parent) {
             value = v;
             leftNode = left;
             rightNode = right;
+            parentNode = parent;
         }
 
         public TreeNode getLeftTree() {
@@ -26,8 +32,7 @@ public class Tree {
             return rightNode;
         }
 
-
-        public Comparable getValue() {
+        public E getValue() {
             return value;
         }
 
@@ -36,9 +41,6 @@ public class Tree {
             return value.compareTo(((TreeNode) arg0).value);
         }
     }
-
-
-    // start of the actual tree class
 
     // the root of our tree
     protected TreeNode root;
@@ -96,14 +98,14 @@ public class Tree {
      *
      * @param element The element to be inserted.
      */
-    public void insert(Comparable element) {
+    public void insert(E element) {
         insertAtNode(element, root, null);
     }
 
     // we traverse the tree.
     // Current holds the pointer to the TreeNode we are currently checking
     // Parent holds the pointer to the parent of the current TreeNode
-    private void insertAtNode(Comparable element, TreeNode current, TreeNode parent) {
+    private void insertAtNode(E element, TreeNode current, TreeNode parent) {
         // if the node we check is empty
         if (current == null) {
             TreeNode newNode = new TreeNode(element);
@@ -117,9 +119,11 @@ public class Tree {
                 else {
                     parent.rightNode = newNode;
                 }
+                newNode.parentNode = parent;
             }
-            // the current node is empty and it has no parent, we actually have an empty tree
+            // the current node is empty, and it has no parent, we actually have an empty tree
             else root = newNode;
+
         } else if (element.compareTo(current.value) == 0) {
             // if the element is already in the tree, what to do?
             throw new UnsupportedOperationException();
@@ -130,6 +134,56 @@ public class Tree {
         }
         // if the element is bigger than current, go right
         else insertAtNode(element, current.getRightTree(), current);
+    }
+
+    private void transplant(TreeNode oldNode, TreeNode newNode) {
+        if (oldNode.parentNode == null) {
+            root = newNode;
+        } else if (oldNode.parentNode.leftNode == oldNode) {
+            oldNode.parentNode.leftNode = newNode;
+        } else {
+            oldNode.parentNode.rightNode = newNode;
+        }
+        if (newNode != null) {
+            newNode.parentNode = oldNode.parentNode;
+        }
+    }
+
+    public void remove(E element) {
+        removeNode(element, root);
+    }
+
+    private void removeNode(E element, TreeNode current) {
+        if (current == null) {
+            return;
+        } else if (element.compareTo(current.value) == 0) {
+            if(current.leftNode == null) transplant(current, current.rightNode);
+            else if (current.rightNode == null) transplant(current, current.leftNode);
+            else {
+                // To find the smallest node which is bigger
+                TreeNode y = minNode(current.rightNode);
+                if(y.parentNode != current){
+                    transplant(y, y.rightNode);
+                    y.rightNode = current.rightNode;
+                    y.rightNode.parentNode = y;
+                }
+                transplant(current, y);
+                y.leftNode = current.leftNode;
+                y.leftNode.parentNode = y;
+            }
+        } else if (element.compareTo(current.value) < 0) {
+            removeNode(element, current.leftNode);
+        }else removeNode(element, current.rightNode);
+    }
+
+    public TreeNode minNode(TreeNode current) {
+        if (current == null) {
+            return null;
+        } else if (current.leftNode == null) {
+            return current;
+        } else {
+            return minNode(current.leftNode);
+        }
     }
 
     /**
@@ -195,45 +249,91 @@ public class Tree {
         if (node == null)
             return 0;
         else {
-            // compute the depth of each subtree
+            // calculate the depth of each subtree
             int depthLeft = depthAtNode(node.leftNode) + 1;
             int depthRight = depthAtNode(node.rightNode) + 1;
 
-            // use the larger one
+            // use the bigger one
             return depthLeft > depthRight ? depthLeft : depthRight;
         }
     }
 
     /**
-     * Finds and returns the maximum value in the tree.
+     * Finds and returns the maximum node in the tree.
      *
-     * @return The maximum value in the tree.
+     * @return The maximum node in the tree.
      */
-    public Comparable findMax() {
+    public TreeNode findMaxNode() {
         return maxNode(root);
     }
 
-    // Helper method for finding the maximum value in the tree.
-    private Comparable maxNode(TreeNode node) {
+    // Helper method for finding the maximum node in the tree.
+    private TreeNode maxNode(TreeNode node) {
         if (node == null) {
             return null;
         }
         if (node.rightNode == null) {
-            return node.getValue();
+            return node;
         } else {
             return maxNode(node.rightNode);
         }
     }
 
+    private E findNode(E element, TreeNode current){
+        if(current == null){
+            return null;
+        } else if (element.compareTo(current.value) == 0) {
+            return current.value;
+        } else if (element.compareTo(current.value) < 0) {
+            return findNode(element, current.getLeftTree());
+        }else {
+            return findNode(element, current.getRightTree());
+        }
+    }
+
+    public E find(E element){
+        return findNode(element, root);
+    }
+
     @Override
     public String toString() {
         String s = "";
-        traverse(new TreeAction() {
+        traverse(new TreeAction<E>() {
             @Override
             public void run(TreeNode n) {
                 System.out.println(n.getValue());
             }
         });
+        return s;
+    }
+
+    private void printNode(TreeNode n){
+        if (n != null){
+            System.out.println(n.value);
+            printNode(n.leftNode);
+            printNode(n.rightNode);
+        }
+    }
+
+    public void print2(){
+        printNode(root);
+    }
+
+
+    public Vector<E> nodeValues() {
+        Vector<E> s = new Vector<>();
+        Queue<TreeNode> t = new Queue<>();
+        t.push(root);
+        while (!t.empty()) {
+            TreeNode n = t.pop();
+            s.addLast(n.value);
+            if (n.getRightTree() != null) {
+                t.push(n.getRightTree());
+            }
+            if (n.getLeftTree() != null) {
+                t.push(n.getLeftTree());
+            }
+        }
         return s;
     }
 

@@ -1,7 +1,11 @@
+/**
+ * Author : Bektas Talayoglu
+ * Description : Client class is used manage clients in the app.
+ **/
+
 package Classes;
 
-import Algorithms.Stack;
-import Algorithms.Vector;
+import Algorithms.Vector.Vector;
 
 public class Client {
 

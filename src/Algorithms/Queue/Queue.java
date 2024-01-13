@@ -1,15 +1,17 @@
-package Algorithms;
+package Algorithms.Queue;
+
+import Algorithms.Vector.Vector;
 
 /**
- * QueueLinkedList class represents a queue using a double linked list.
- *
+ * Author : Bektas Talayoglu
+ * Description : Queue class represents a queue using a Vector.
  * @param <E> The type of elements in the queue.
- */
-public class QueueLinkedList<E> {
-    private DoubleLinkedList<E> data;
+ **/
+public class Queue<E> {
+    private Vector<E> data;
 
-    public QueueLinkedList() {
-        data = new DoubleLinkedList<>();
+    public Queue() {
+        data = new Vector<>();
     }
 
     /**
@@ -28,7 +30,7 @@ public class QueueLinkedList<E> {
      */
     public E pop() {
         E obj = (E) data.getFirst();
-        data.removeFirst();
+        data.removeAt(0);
         return obj;
     }
 
@@ -50,6 +52,7 @@ public class QueueLinkedList<E> {
         return data.size();
     }
 
+
     /**
      * Checks if the queue is empty.
      *
@@ -59,10 +62,6 @@ public class QueueLinkedList<E> {
         return data.isEmpty();
     }
 
-    @Override
-    public String toString() {
-        return "data= " + data;
-    }
 }
 
 

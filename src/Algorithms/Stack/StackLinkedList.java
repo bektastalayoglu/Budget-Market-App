@@ -1,10 +1,14 @@
-package Algorithms;
-
 /**
- * StackLinkedList class represents a stack using a linked list.
+ * Author : Bektas Talayoglu
+ * Description : StackLinkedList class represents a stack using a linked list.
  *
- * @param <E> The type of elements in the stack.
- */
+ * @param <E> The generic types of elements in the stack.
+ **/
+
+package Algorithms.Stack;
+
+import Algorithms.List.LinkedList;
+
 public class StackLinkedList<E extends Comparable> {
     private LinkedList data;
 

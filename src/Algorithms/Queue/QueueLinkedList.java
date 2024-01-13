@@ -1,19 +1,19 @@
-package Algorithms;
-
 /**
- * QueueCircularVector class represents a queue using a CircularVector.
+ * Author : Bektas Talayoglu
+ * Description : QueueLinkedList class represents a queue using a double linked list.
  *
- * @param <E> The type of elements in the queue.
- */
-public class QueueCircularVector<E>{
-    private CircularVector<E> data;
+ * @param <E> The generic types of elements in the queue.
+ **/
 
-    public QueueCircularVector() {
-        data = new CircularVector<>();
-    }
+package Algorithms.Queue;
 
-    public QueueCircularVector(int capacity) {
-        data = new CircularVector<>(capacity);
+import Algorithms.List.DoubleLinkedList;
+
+public class QueueLinkedList<E> {
+    private DoubleLinkedList<E> data;
+
+    public QueueLinkedList() {
+        data = new DoubleLinkedList<>();
     }
 
     /**
@@ -48,7 +48,7 @@ public class QueueCircularVector<E>{
     /**
      * Returns the number of elements in the queue.
      *
-     * @return The size of the circular queue.
+     * @return The size of the queue.
      */
     public int size() {
         return data.size();
@@ -65,12 +65,9 @@ public class QueueCircularVector<E>{
 
     @Override
     public String toString() {
-        return "Queue{" +
-                "data=" + data +
-                '}';
+        return "data= " + data;
     }
 }
-
 
 
 

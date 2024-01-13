@@ -1,11 +1,13 @@
-package Algorithms;
+package Algorithms.PriorityQ;
+
+import Algorithms.Tree.Tree;
 
 /**
- * PriorityQueue class represents a priority queue.
+ * PriorityQueueTree class represents a priority queue using tree.
  *
- * @param <E> The type of elements in the priority queue.
+ * @param <E> The type of elements in the priority queue tree.
  */
-public class PriorityQueue<E, P> {
+public class PriorityQueueTree<E, P> {
 
     private class PriorityPair implements Comparable{
         private E element;
@@ -31,59 +33,57 @@ public class PriorityQueue<E, P> {
 
     }
 
-    private LinkedList data;
+    // implementing a priority queue using a binary search tree.
+    private Tree priorityTree;
 
-    public PriorityQueue(){
-        data = new LinkedList();
+    public PriorityQueueTree(){
+        priorityTree = new Tree();
     }
 
     /**
-     * Adds an element with the specified priority to the priority queue.
+     * Adds an element with the specified priority to the priority queue tree.
      *
      * @param o        The element to be added.
      * @param priority The priority associated with the element.
      */
     public void push(E o, P priority){
         PriorityPair x = new PriorityPair(o, priority);
-        data.addSorted(x);
+        priorityTree.insert(x);
     }
 
     /**
-     * Removes and returns the element with the highest priority from the priority queue.
+     * Removes and returns the element with the highest priority from the priority queue tree.
+     * To do this first we find max node value which is node has the highest priority in tree.
      *
      * @return The element with the highest priority.
      */
     public E pop(){
-        PriorityPair x = (PriorityPair) data.getFirst();
-        data.removeFirst();
+        PriorityPair x = (PriorityPair) priorityTree.findMaxNode().getValue();
+        priorityTree.remove(x);
         return x.element;
     }
 
     /**
-     * Returns the element with the highest priority without removing it from the priority queue.
+     * Returns the element with the highest priority without removing it from the priority queue tree.
      *
      * @return The element with the highest priority.
      */
     public E top(){
-        return ((PriorityPair)data.getFirst()).element;
+        return ((PriorityPair)priorityTree.findMaxNode().getValue()).element;
     }
 
+    /**
+     * Size of the priority queue tree is actually depth of the tree
+     * @return depth of the tree
+     */
     public int size() {
-        return data.size();
+        return priorityTree.depth();
     }
 
     @Override
     public String toString() {
-        return "data=" + data + '}';
+        return "data=" + priorityTree + '}';
     }
 
-    public E get(int index){
-        PriorityPair pair = (PriorityPair) data.get(index);
-        return pair.element;
-    }
-
-    public boolean isEmpty() {
-        return data.isEmpty();
-    }
 
 }

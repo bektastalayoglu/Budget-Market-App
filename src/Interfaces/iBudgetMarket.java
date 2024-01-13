@@ -1,6 +1,6 @@
 package Interfaces;
 
-import Algorithms.Vector;
+import Algorithms.Vector.Vector;
 import Classes.Client;
 import Classes.Product;
 import Classes.Store;

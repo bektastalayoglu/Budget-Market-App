@@ -1,15 +1,23 @@
-package Algorithms;
-
 /**
- * Queue class represents a queue using a Vector.
+ * Author : Bektas Talayoglu
+ * Description : QueueCircularVector class represents a queue using a CircularVector.
  *
- * @param <E> The type of elements in the queue.
- */
-public class Queue<E> {
-    private Vector<E> data;
+ * @param <E> The generic types of elements in the queue.
+ **/
 
-    public Queue() {
-        data = new Vector<>();
+package Algorithms.Queue;
+
+import Algorithms.Vector.CircularVector;
+
+public class QueueCircularVector<E> {
+    private CircularVector<E> data;
+
+    public QueueCircularVector() {
+        data = new CircularVector<>();
+    }
+
+    public QueueCircularVector(int capacity) {
+        data = new CircularVector<>(capacity);
     }
 
     /**
@@ -28,7 +36,7 @@ public class Queue<E> {
      */
     public E pop() {
         E obj = (E) data.getFirst();
-        data.removeAt(0);
+        data.removeFirst();
         return obj;
     }
 
@@ -44,12 +52,11 @@ public class Queue<E> {
     /**
      * Returns the number of elements in the queue.
      *
-     * @return The size of the queue.
+     * @return The size of the circular queue.
      */
     public int size() {
         return data.size();
     }
-
 
     /**
      * Checks if the queue is empty.
@@ -60,7 +67,14 @@ public class Queue<E> {
         return data.isEmpty();
     }
 
+    @Override
+    public String toString() {
+        return "Queue{" +
+                "data=" + data +
+                '}';
+    }
 }
+
 
 
 
