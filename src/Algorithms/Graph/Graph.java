@@ -176,22 +176,7 @@ public class Graph {
         return nodes.size();
     }
 
-
-    public Vector<Node> getNeighbors(Comparable street) {
-        Vector<Node> neighbors = new Vector<>();
-
-        Node currentNode = getNode(street);
-        if (currentNode != null) {
-            for (int i = 0; i < currentNode.edges.size(); i++) {
-                Edge edge = (Edge) currentNode.edges.get(i);
-                neighbors.addLast(edge.toNode);
-            }
-        }
-
-        return neighbors;
-    }
-
-    public Vector<Node> getNodesWithinDistance(Comparable startNodeLabel, int distance) {
+    public Vector<String> getNodesWithinDistance(Comparable startNodeLabel, int distance) {
         Node startNode = findNode(startNodeLabel);
 
         if (startNode == null) {
@@ -199,12 +184,12 @@ public class Graph {
             return new Vector<>(); // Return an empty vector if the start node is not found
         }
 
-        Vector<Node> nodesWithinDistance = new Vector<>();
+        Vector<String> nodesWithinDistance = new Vector<>();
         Queue<Node> queue = new Queue<>();
 
         queue.push(startNode);
         startNode.setVisited(true);
-        nodesWithinDistance.addLast(startNode);
+        nodesWithinDistance.addLast(startNode.getLabel().toString());
 
         while (!queue.empty()) {
             Node currentNode = queue.pop();
@@ -216,7 +201,7 @@ public class Graph {
                 if (!neighborNode.isVisited() && edge.getWeight() <= distance) {
                     queue.push(neighborNode);
                     neighborNode.setVisited(true);
-                    nodesWithinDistance.addLast(neighborNode);
+                    nodesWithinDistance.addLast(neighborNode.getLabel().toString());
                 }
             }
 

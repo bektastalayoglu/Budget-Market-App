@@ -23,10 +23,11 @@ public class Main {
 
 
         // Add products, returns id of products
-        int product1 = marketApp.addProduct("Ham", 160.50f, store3);
-        int product4 = marketApp.addProduct("Ham", 24.70f, store2);
-        // int product6 = marketApp.addProduct("Ham", 10.50f, store1);
-        int product5 = marketApp.addProduct("Beef", 10.50f, store1);
+        int product1 = marketApp.addProduct("Beef", 16.50f, store3);
+        int product2 = marketApp.addProduct("Apple", 3.70f, store2);
+        int product3 = marketApp.addProduct("Beef", 55.50f, store1);
+        int product4 = marketApp.addProduct("Apple", 1.50f, store1);
+        int product5 = marketApp.addProduct("Ham", 2.50f, store2);
 
 
 
@@ -75,21 +76,22 @@ public class Main {
 
 
         System.out.println(marketApp.addProductToShoppingList(client1, "Ham"));
-        //System.out.println(marketApp.addProductToShoppingList(client1, "Beef"));
+        System.out.println(marketApp.addProductToShoppingList(client1, "Beef"));
+        System.out.println(marketApp.addProductToShoppingList(client1, "Apple"));
 
-        marketApp.printAllClients();
         System.out.println(marketApp.buyProducts(client1));
 
-        System.out.println(marketApp.removeProductFromStore("Ham", store2));
         marketApp.addStreet("Street A");
         marketApp.addStreet("Street B");
         marketApp.addStreet("Street C");
 
-        marketApp.connectStreets("Street A", "Street B", 5);
-        marketApp.connectStreets("Street B", "Street C", 8);
+        marketApp.connectStreets("Street A", "Street C", 3);
+        marketApp.connectStreets("Street A", "Street B", 2);
 
+        System.out.println(marketApp.getShoppingDirections(client1,3));
 
-        System.out.println(marketApp.getShoppingDirections(client1,1));
-
+        System.out.println(marketApp.removeProductFromStore("Beef", store2));
+        System.out.println(marketApp.removeProductFromStore("Beef", store1));
+        System.out.println(marketApp.removeProductFromStore("Beef", store3));
     }
 }

@@ -48,7 +48,7 @@ public class Client {
      * Get the name of the client.
      * @return The client name
      */
-    public String getClientName() {
+    public String getName() {
         return name;
     }
 
@@ -66,7 +66,7 @@ public class Client {
      * Get the address of the client.
      * @return The client address
      */
-    public String getClientAddress() {
+    public String getAddress() {
         return address;
     }
 

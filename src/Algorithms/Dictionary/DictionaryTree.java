@@ -49,10 +49,7 @@ public class DictionaryTree<K extends Comparable<K>, V> {
          **/
         @Override
         public String toString() {
-            return "DictionaryPair{" +
-                    "key=" + key +
-                    ", value=" + value +
-                    '}';
+            return  key + ", " + value;
         }
     }
 
@@ -76,12 +73,14 @@ public class DictionaryTree<K extends Comparable<K>, V> {
      * @param value The value associated with the key.
      */
     public void add(K key, V value) {
-        DictionaryPair newDict = new DictionaryPair(key, value);
-        if (data.find(newDict) != null) {
-            DictionaryPair pair = data.find(newDict);
+        if (find(key) != null) {
+            // According to key find the dictionary pair
+            DictionaryPair pair = data.find(new DictionaryPair(key, null));
+            // set the value
             pair.setValue(value);
         } else {
-            data.insert(newDict);
+            // If the key does not exist insert a new dictionary pair to the tree
+            data.insert(new DictionaryPair(key, value));
         }
     }
 
@@ -92,12 +91,14 @@ public class DictionaryTree<K extends Comparable<K>, V> {
      * @return The value associated with the key, or null if the key is not found.
      */
     public V find(K key) {
-        DictionaryPair resultPair = data.find(new DictionaryPair(key, null));
+        // Find the dictionary pair according to key
+        DictionaryPair pair = data.find(new DictionaryPair(key, null));
 
-        if (resultPair != null && resultPair.getKey().equals(key)) {
-            return resultPair.getValue();
+        // If the key exists return the value
+        if (pair != null && pair.getKey().equals(key)) {
+            return pair.getValue();
         }
-
+        // If the key does not exist return null
         return null;
     }
 
@@ -107,9 +108,12 @@ public class DictionaryTree<K extends Comparable<K>, V> {
      * @param key The key to remove.
      */
     public void removeKey(K key) {
-        DictionaryPair resultPair = data.find(new DictionaryPair(key, null));
-        if (resultPair != null) {
-            data.remove(resultPair);
+        // Find the dictionary pair according to key
+        DictionaryPair pair = data.find(new DictionaryPair(key, null));
+
+        if (pair != null) {
+            // remove the key-value pair from the tree
+            data.remove(pair);
         }else{
             System.out.println("Key can not find");
         }
@@ -159,7 +163,7 @@ public class DictionaryTree<K extends Comparable<K>, V> {
      **/
     @Override
     public String toString() {
-        return "data={" + data.breadthSearch() + '}';
+        return data.toString();
     }
 
 }

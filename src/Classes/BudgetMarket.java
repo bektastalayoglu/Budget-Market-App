@@ -1,6 +1,7 @@
 package Classes;
 
 import Algorithms.Dictionary.Dictionary;
+import Algorithms.Dictionary.DictionaryTree;
 import Algorithms.PriorityQ.PriorityQueue;
 import Algorithms.Vector.Vector;
 import Algorithms.Graph.Graph;
@@ -13,11 +14,11 @@ import Interfaces.iBudgetMarket;
 
 
 public class BudgetMarket implements iBudgetMarket {
-    private Dictionary<Integer, Store> stores;
-    private Dictionary<Integer, Product> products;
-    private Dictionary<Integer, Client> clients;
+    private DictionaryTree<Integer, Store> stores;
+    private DictionaryTree<Integer, Product> products;
+    private DictionaryTree<Integer, Client> clients;
 
-    private Dictionary<String, PriorityQueue<Store, Float>> productInStore;
+    private DictionaryTree<String, PriorityQueue<Store, Float>> productInStore;
 
     private Graph graph;
 
@@ -26,10 +27,10 @@ public class BudgetMarket implements iBudgetMarket {
     private int productID = 1;
 
     public BudgetMarket() {
-        this.stores = new Dictionary<>();
-        this.products = new Dictionary<>();
-        this.clients = new Dictionary<>();
-        this.productInStore = new Dictionary<>();
+        this.stores = new DictionaryTree<>();
+        this.products = new DictionaryTree<>();
+        this.clients = new DictionaryTree<>();
+        this.productInStore = new DictionaryTree<>();
         this.graph = new Graph();
     }
 
@@ -62,38 +63,6 @@ public class BudgetMarket implements iBudgetMarket {
      *
      * @return ID of the product
      */
-  /*  @Override
-    public int addProduct(String category, Float price, int storeID) {
-        // Find the store according to its store ID
-        Store store = findStore(storeID);
-
-        // Find stores with the specified category and their corresponding prices.
-        PriorityQueue<Store, Float> categoryQ = productInStore.find(category);
-
-        // If the product category already exists, push store and price of product to priorityQ
-        if (categoryQ != null) {
-            int productID = findProductID(category);
-            if (productID != -1) {
-                categoryQ.push(store, price);
-                return productID;
-            }
-        }
-
-        // If the category not exist we create new product
-        Product newProduct = new Product(category, price, productID++);
-
-        // Maps product id and product and set the store
-        products.add(newProduct.getProductID(), newProduct);
-        //newProduct.setStoreID(storeID);
-
-        // If category does not exist
-
-        categoryQ = new PriorityQueue<>();
-        productInStore.add(category, categoryQ);
-        categoryQ.push(store, price);
-
-        return newProduct.getProductID();
-    }*/
     @Override
     public int addProduct(String category, Float price, int storeID) {
         // Find the store according to its store ID
@@ -125,34 +94,6 @@ public class BudgetMarket implements iBudgetMarket {
         return newProduct.getProductID();
     }
 
-    // Helper method to find a product based on its category
-    private Product findProductByCategory(String productCategory) {
-        for (int i = 0; i < products.size(); i++) {
-            Product currentProduct = products.values().get(i);
-            if (currentProduct != null && currentProduct.getCategory().equals(productCategory)) {
-                return currentProduct;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Helper method to find to product ID from its category
-     *
-     * @param productCategory : category of the product
-     * @return product id
-     */
-    private int findProductID(String productCategory) {
-
-        for (int i = 0; i < products.size(); i++) {
-            Product currentProduct = products.find(products.keys().get(i));
-            if (currentProduct != null && currentProduct.getCategory().equals(productCategory)) {
-                return currentProduct.getProductID();
-            }
-        }
-        return -1;
-    }
-
     /*
      * Add a new client with given parameters: name, email address, and street
      * address.
@@ -178,9 +119,7 @@ public class BudgetMarket implements iBudgetMarket {
      */
     @Override
     public void printAllStores() {
-        for (int i = 0; i < stores.size(); i++) {
-            System.out.println(stores.values().get(i));
-        }
+        System.out.println(stores);
     }
 
     /*
@@ -188,10 +127,7 @@ public class BudgetMarket implements iBudgetMarket {
      */
     @Override
     public void printAllProducts() {
-        for (int i = 0; i < products.size(); i++) {
-            System.out.println(products.values().get(i));
-        }
-
+        System.out.println(products);
     }
 
     /*
@@ -201,11 +137,7 @@ public class BudgetMarket implements iBudgetMarket {
      */
     @Override
     public void printAllClients() {
-        for (int i = 0; i < clients.size(); i++) {
-            System.out.println(clients.values().get(i));
-            System.out.println("Shopping list: ");
-            System.out.println(clients.values().get(i).getShoppingList());
-        }
+        System.out.println(clients);
     }
 
     /*
@@ -259,17 +191,39 @@ public class BudgetMarket implements iBudgetMarket {
      */
     @Override
     public boolean addProductToShoppingList(int clientID, String productCategory) {
-        if (findClient(clientID) != null) {
+        // Check client id
+        Client client = findClient(clientID);
+        if (client != null) {
+            // Traverse all products until you find the product the client wants to add to their shopping list
             for (int i = 0; i < products.size(); i++) {
                 if (products.values().get(i).getCategory().equals(productCategory)) {
-                    findClient(clientID).getShoppingList().addLast(productCategory);
+                    client.getShoppingList().addLast(productCategory);
+                    // product successfully added to shopping list
                     return true;
                 }
             }
         }
+        // Product Category does not exist
         return false;
     }
 
+/*    public boolean addProductToShoppingList(int clientID, String productCategory){
+        if(findProductByCategory(productCategory) != null && findClient(clientID) != null){
+            findClient(clientID).getShoppingList().addLast(productCategory);
+            return true;
+        }
+        return false;
+    }*/
+
+    private Product findProductByCategory(String productCategory) {
+        for (int i = 0; i < products.size(); i++) {
+            Product currentProduct = products.find(i);
+            if (currentProduct != null && currentProduct.getCategory().equals(productCategory)) {
+                return currentProduct;
+            }
+        }
+        return null;
+    }
 
 
     /*
@@ -283,16 +237,19 @@ public class BudgetMarket implements iBudgetMarket {
     @Override
     public Vector<Store> buyProducts(int clientID) {
         Vector<Store> storesToVisit = new Vector<>();
+        Client client = findClient(clientID);
+        // Check client id
+        if (client != null) {
+            // Get current shopping list of the client
+            Vector<String> currentShoppingList = client.getShoppingList();
 
-        if (findClient(clientID) != null) {
-            Vector<String> currentShopList = findClient(clientID).getShoppingList();
-
-            for (int i = 0; i < currentShopList.size(); i++) {
-                String currentProductCategory = currentShopList.get(i);
+            // According to products in client shopping list and return cheapest stores
+            for (int i = 0; i < currentShoppingList.size(); i++) {
+                String currentProductCategory = currentShoppingList.get(i);
                 PriorityQueue<Store, Float> priorityQueue = productInStore.find(currentProductCategory);
                 Store cheapestStore = priorityQueue.top();
                 if (storesToVisit.contains(cheapestStore)) {
-                    return storesToVisit;
+                    continue;
                 }
                 storesToVisit.addLast(cheapestStore);
             }
@@ -312,14 +269,15 @@ public class BudgetMarket implements iBudgetMarket {
 
     @Override
     public boolean removeProductFromStore(String category, int storeID) {
-        // Iterate through products to find a match by category and store ID
+        // Find product according to its store ID
         Store store = findStore(storeID);
-        PriorityQueue<Store, Float> categoryQ = productInStore.find(category);
+        PriorityQueue<Store, Float> stores = productInStore.find(category);
 
-        if(categoryQ != null){
-            for (int i = 0; i < productInStore.values().size(); i++){
-                if(categoryQ.get(i).equals(store)){
-                    categoryQ.remove(i);
+        // If stores exist find the store and remove product from the store
+        if (stores != null) {
+            for (int i = 0; i < stores.size(); i++) {
+                if (stores.get(i).equals(store)) {
+                    stores.remove(i);
                     return true;
                 }
             }
@@ -327,26 +285,6 @@ public class BudgetMarket implements iBudgetMarket {
         System.out.println("Product " + category + " not found in store " + storeID);
         return false;
     }
-
-/*
-    @Override
-    public boolean removeProductFromStore(String category, int storeID) {
-        // Iterate through products to find a match by category and store ID
-        for (int i = 0; i < products.size(); i++) {
-            Product currentProduct = products.find(i);
-            PriorityQueue<Store, Float> categoryQ = productInStore.find(category);
-            if (currentProduct != null && currentProduct.getCategory().equals(category) && currentProduct.getStoreID() == storeID) {
-                // Remove the product from the products dictionary
-                products.removeKey(currentProduct.getProductID());
-
-                System.out.println("Product " + category + " removed from store " + storeID);
-                return true;
-            }
-        }
-        System.out.println("Product " + category + " not found in store " + storeID);
-        return false;
-    }
-*/
 
     /************************** end of PART 2 ***************************/
 
@@ -374,8 +312,6 @@ public class BudgetMarket implements iBudgetMarket {
     @Override
     public void connectStreets(String street1, String street2, int distance) {
         graph.addEdge(street1, street2, distance);
-/*        graph.findPath(street1, street2);
-        System.out.println(graph);*/
     }
 
     /*
@@ -401,56 +337,39 @@ public class BudgetMarket implements iBudgetMarket {
             graph.resetVisitedStatus();
 
             // Get the home street of the client
-            String homeStreet = client.getClientAddress();
+            String homeStreet = client.getAddress();
 
             // Perform BFS to find stores within the specified distance
-            Vector<Graph.Node> nodesWithinDistance = graph.getNodesWithinDistance(homeStreet, distance);
+            Vector<String> nodesWithinDistance = graph.getNodesWithinDistance(homeStreet, distance);
 
-            for (int i = 0; i < nodesWithinDistance.size(); i++) {
-                Graph.Node node = nodesWithinDistance.get(i);
+            Vector<String> currentShoppingList = findClient(clientID).getShoppingList();
+            // Iterate through each product in the client's shopping list
+            for (int i = 0; i < currentShoppingList.size(); i++) {
+                String currentProductCategory = currentShoppingList.get(i);
+                // Find the PriorityQueue for the product category
+                PriorityQueue<Store, Float> priorityQueueCopy = productInStore.find(currentProductCategory).copy();
 
-                // Find the store corresponding to the street
-                Store store = findStoreByStreet((String) node.getLabel());
-
-                if (store != null && hasAllProducts(store, client.getShoppingList())) {
-                    storesToVisit.addLast(store);
+                if (priorityQueueCopy != null) {
+                    // Iterate through stores in PriorityQueue until a store within distance is found
+                    while (!priorityQueueCopy.isEmpty()) {
+                        Store store = priorityQueueCopy.top();
+                        if (store != null) {
+                            priorityQueueCopy.pop();
+                            if (nodesWithinDistance.contains(store.getStoreAddress())) {
+                                // Check if the store has any product from the shopping list
+                                if (storesToVisit.contains(store)) {
+                                    break;
+                                }
+                                storesToVisit.addLast(store);
+                                break; // Move to the next product after finding a suitable store
+                            }
+                        }
+                    }
                 }
             }
         }
-
-        return storesToVisit;
+        return storesToVisit.isEmpty() ? null : storesToVisit;
     }
 
-    // Helper method to check if a store has all the products from the shopping list
-    private boolean hasAllProducts(Store store, Vector<String> shoppingList) {
-        for (int i = 0; i < shoppingList.size(); i++) {
-            String productCategory = shoppingList.get(i);
-            PriorityQueue<Store, Float> priorityQueue = productInStore.find(productCategory);
-
-            if (priorityQueue != null) {
-                Store cheapestStore = priorityQueue.top();
-                if (!store.equals(cheapestStore)) {
-                    // The store doesn't have the required product
-                    return false;
-                }
-            } else {
-                // The product category is not available in any store
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-    // Helper method to find a store based on its street
-    private Store findStoreByStreet(String street) {
-        for (int i = 0; i < stores.size(); i++) {
-            Store currentStore = stores.values().get(i);
-            if (currentStore != null && currentStore.getStoreAddress().equals(street)) {
-                return currentStore;
-            }
-        }
-        return null;
-    }
     /************************** end of PART 3 ***************************/
 }

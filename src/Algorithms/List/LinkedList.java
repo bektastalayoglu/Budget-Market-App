@@ -73,10 +73,15 @@ public class LinkedList<E extends Comparable<E>> {
      * @return The element at the specified index.
      */
     public E get(int n) {
+        if (n < 0 || n >= count) {
+            throw new IndexOutOfBoundsException();
+        }
+
         ListElement d = head;
         for (int i = 0; i < n; i++) {
             d = d.next;
         }
+
         return d.getValue();
     }
 
@@ -153,6 +158,7 @@ public class LinkedList<E extends Comparable<E>> {
             // Set the next element of the current last element to the new element
             current.setNext(newElement);
         }
+        count++;
     }
 
     /**
@@ -247,6 +253,7 @@ public class LinkedList<E extends Comparable<E>> {
             // Otherwise, remove the last element by setting the next of the previous to null
             previous.setNext(null);
         }
+        count--;
     }
 
     /**
@@ -260,6 +267,7 @@ public class LinkedList<E extends Comparable<E>> {
         ListElement second = head.next;
         head.next = null;
         head = second;
+        count--;
     }
 
     /**
@@ -300,7 +308,9 @@ public class LinkedList<E extends Comparable<E>> {
      * @param n : index
      */
     public void delete(int n) {
-
+        if (n < 0 || n >= count) {
+            throw new IndexOutOfBoundsException();
+        }
         if (n == 0) {
             removeFirst();
         } else {
@@ -319,11 +329,6 @@ public class LinkedList<E extends Comparable<E>> {
 
             count--;
         }
-
-        if (n < 0 || n >= count) {
-            throw new IndexOutOfBoundsException();
-        }
-
     }
 
 

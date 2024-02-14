@@ -94,4 +94,23 @@ public class PriorityQueue<E, P> {
         return data.isEmpty();
     }
 
+
+    public PriorityQueue<E, P> copy(){
+        // Create a new priority queue to store the copy
+        PriorityQueue<E, P> copy = new PriorityQueue<>();
+
+        // Loop over the elements of the original priority queue
+        for(int i = 0; i < size(); i++){
+            // Get the element and the priority at the current index
+            E element = get(i);
+            P priority = ((PriorityPair) data.get(i)).priority;
+
+            // Push the element and the priority to the copy priority queue
+            copy.push(element, priority);
+        }
+
+        // Return the copy priority queue
+        return copy;
+    }
+
 }
